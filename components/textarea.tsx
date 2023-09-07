@@ -8,7 +8,7 @@ const TextareaContainer = styled.div`
   align-items: flex-start;
 `;
 
-const TextareaContent = styled.textarea`
+const TextareaContent = styled.textarea<any>`
   outline: none;
   width: ${props => props.width + "px"};
   height: ${props => props.height + "px"};

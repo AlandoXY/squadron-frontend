@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 
-const TypographyContainer = styled.div`
+const TypographyContainer = styled.div<any>`
     color: ${props => props.color};
     font-size: ${props => props.fontSize};
     cursor: pointer;

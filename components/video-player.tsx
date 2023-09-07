@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 
-const VideoPlayerContainer = styled.div`
+const VideoPlayerContainer = styled.div<any>`
   display: flex;
   border-radius: 10px;
   width: ${props => props.width + "px"};
