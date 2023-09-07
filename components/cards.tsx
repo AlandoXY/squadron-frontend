@@ -50,6 +50,9 @@ export default function Cards() {
       <Card>
         <StyledLink href="/about" name="About Page &rarr;" />
       </Card>
+      <Card>
+        <StyledLink href="/demo" name="Demo Page &rarr;" />
+      </Card>
     </FlexContainer>
   );
 }
