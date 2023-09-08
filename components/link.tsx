@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, {MouseEventHandler} from "react";
 
-const LinkContainer = styled.a`
+const LinkContainer = styled.a<any>`
     display: inline-block;
     padding: 0.2rem 0.3rem;
     color: ${props => props.color};

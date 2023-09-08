@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, {MouseEventHandler} from "react";
 import Image from 'next/image'
 
-const IconButtonContainer = styled.button`
+const IconButtonContainer = styled.button<any>`
   display: ${props => props.fullWidth ? 'flex' : 'inline-flex'};
   width: ${props => props.fullWidth ? '100%' : 'auto'};
   justify-content: center;
@@ -14,7 +14,7 @@ const IconButtonContainer = styled.button`
   cursor: pointer;
 `;
 
-const ButtonText = styled.span`
+const ButtonText = styled.span<any>`
   margin-left: 0.8rem;
   font-size: 16px;
   color: ${props => props.fontColor};

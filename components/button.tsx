@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, {MouseEventHandler} from "react";
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.button<any>`
     display: ${props => props.fullWidth ? 'block' : 'inline-block'};
     width: ${props => props.fullWidth ? '100%' : 'auto'};
     padding: 0.5rem 1rem;
