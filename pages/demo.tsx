@@ -7,10 +7,16 @@ import Typography from "@/components/typography";
 import VideoPlayer from "@/components/video-player";
 import styled from "styled-components";
 import Input from "@/components/input";
-import {useState} from "react";
+import React, {useState} from "react";
 import Textarea from "@/components/textarea";
 import FileUpload from "@/components/file-upload";
 import InputToggle from "@/components/input-toggle";
+import Dropdown from "@/components/dropdown";
+import Pagination from "@/components/pagination";
+import Label from "@/components/label";
+import Explanation from "@/components/explanation";
+import Image from "next/image";
+import Message from "@/components/message";
 
 const Title = styled.h2`
   background-color: #333;
@@ -38,6 +44,13 @@ export default function Demo() {
   const [text, setText] = useState('');
   const [text1, setText1] = useState('disabled resize');
   const [checked, setChecked] = useState(false);
+  const [dropVal, setDropVal] = useState("");
+  const [dropVal1, setDropVal1] = useState("");
+  const [role, setRole] = useState("");
+  const [skills, setSkills] = useState("");
+  const [rate, setRate] = useState("");
+  const [page, setPage] = useState(1);
+  const [openMessage, setOpenMessage] = useState(false);
 
   return (
     <div>
@@ -122,6 +135,76 @@ export default function Demo() {
             </Row>
           </div>
         } />
+      </Content>
+      <Title>Dropdown</Title>
+      <Content>
+        <h6>Drop down</h6>
+        <Dropdown
+          options={[{ label: "A", value: "A" }, { label: "B", value: "B" }, { label: "C", value: "C" }]}
+          value={dropVal}
+          onChange={(value) => setDropVal(value)} />
+        <div>
+          <h6>Drop down search bar</h6>
+          <Dropdown
+            options={[{ label: "Alisa Hester", value: "Alisa Hester", icon: "/icons/avatar.png" }, { label: "Antonio Hidalgo", value: "Antonio Hidalgo  ", icon: "/icons/avatar.png" }]}
+            value={dropVal1}
+            onChange={(value) => setDropVal1(value)}
+            prevIcon="/icons/search-lg.png"
+            disableInput={false}
+            showSuffixIcon={false} />
+        </div>
+        <div>
+          <h6>Filter</h6>
+          <Dropdown
+            placeholder="Role"
+            options={[{ label: "Admin", value: "Admin" }, { label: "Manager", value: "Manager" }]}
+            value={role}
+            onChange={(value) => setRole(value)}
+            prevIcon="/icons/role.png"
+            inputWidth="40px" />
+          <Dropdown
+            placeholder="Skills"
+            options={[{ label: "JavaScript", value: "JavaScript" }, { label: "React", value: "React" }]}
+            value={skills}
+            onChange={(value) => setSkills(value)}
+            prevIcon="/icons/tools.png"
+            inputWidth="40px" />
+          <Dropdown
+            placeholder="Rate"
+            options={[{ label: "Dollar", value: "Dollar" }, { label: "Franc", value: "Franc" }]}
+            value={rate}
+            onChange={(value) => setRate(value)}
+            prevIcon="/icons/rate.png"
+            inputWidth="40px" />
+        </div>
+      </Content>
+      <Title>Pagination</Title>
+      <Content>
+        <Pagination page={page} totalSize={100} onChange={(page) => setPage(page)} />
+      </Content>
+      <Title>Label</Title>
+      <Content>
+        <h6>Recommended skills</h6>
+        <Label>Label</Label>
+        <h6>Required skills</h6>
+        <Label borderColor="#027A48" fontColor="#027A48">Label</Label>
+        <h6>Tools</h6>
+        <Label icon="/icons/ps.png">Label</Label>
+        <h6>Roles label(角色标签)</h6>
+        <Label icon="/icons/user-blue.png" color="#e0effb" fontColor="#45729b" borderColor="#e0effb" borderRadius="0.3rem">Product Manager</Label>
+        <h6>Project keywords labe</h6>
+        <Label color="#f1f4f4" borderColor="#f1f4f4">E-Commerce</Label>
+      </Content>
+      <Title>Explanation</Title>
+      <Content>
+        <Explanation title="Lead role" desc="Explanation about what the lead role">
+          <IconButton width={20} height={20} icon="/icons/info.png">click me</IconButton>
+        </Explanation>
+      </Content>
+      <Title>Message</Title>
+      <Content>
+        <Message open={openMessage} onClose={() => setOpenMessage(false)} color="#724fcc" fontColor="white">Your question has been sent. You will receive a response</Message>
+        <Button onClick={() => setOpenMessage(true)}>Open Message</Button>
       </Content>
     </div>
   );
