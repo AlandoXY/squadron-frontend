@@ -17,6 +17,15 @@ import Label from "@/components/label";
 import Explanation from "@/components/explanation";
 import Image from "next/image";
 import Message from "@/components/message";
+import Modal from "@/components/modal";
+import ProgressBar from "@/components/progress-bar";
+import Tab from "@/components/tab";
+import Tabs from "@/components/tabs";
+import TabContent from "@/components/tab-content";
+import ButtonGroup from "@/components/button-group";
+import Table from "@/components/table";
+import TableRow from "@/components/table-row";
+import TableCol from "@/components/table-col";
 
 const Title = styled.h2`
   background-color: #333;
@@ -51,6 +60,8 @@ export default function Demo() {
   const [rate, setRate] = useState("");
   const [page, setPage] = useState(1);
   const [openMessage, setOpenMessage] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [tab, setTab] = useState("Invites");
 
   return (
     <div>
@@ -205,6 +216,91 @@ export default function Demo() {
       <Content>
         <Message open={openMessage} onClose={() => setOpenMessage(false)} color="#724fcc" fontColor="white">Your question has been sent. You will receive a response</Message>
         <Button onClick={() => setOpenMessage(true)}>Open Message</Button>
+      </Content>
+      <Title>Modal</Title>
+      <Content>
+        <Modal open={openModal} closeButton handleClose={() => setOpenModal(false)}>
+          <Typography component="h5" margin="0 0 20px 0">Require Skills missing</Typography>
+          <Typography>Copy about mandatory skills missing </Typography>
+          <div style={{padding: "20px 0", margin: "20px 0", borderTop: '1px solid #e1e1e1', borderBottom: '1px solid #e1e1e1'}}>
+            <Label>Label</Label>
+            <Label>UX Design</Label>
+            <Label>Skill</Label>
+          </div>
+          <div style={{textAlign: "right"}}>
+            <Button onClick={() => setOpenModal(false)}>Cancel</Button>
+            <Button color="#4B48EC" fontColor="white">Add skills</Button>
+          </div>
+        </Modal>
+        <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
+      </Content>
+      <Title>Progress Bar</Title>
+      <Content>
+        <ProgressBar value={30} />
+        <div style={{marginTop: 20}}>
+          <ProgressBar value={50} color="#A0D909" height={10} />
+        </div>
+      </Content>
+      <Title>Tabs</Title>
+      <Content>
+        <Tabs value={tab} onChange={value => setTab(value)}>
+          <Tab value="Saved jobs">Saved jobs</Tab>
+          <Tab value="Invites">Invites</Tab>
+          <Tab value="Applications">Applications</Tab>
+          <Tab value="Offers">Offers</Tab>
+          <Tab value="Projects">Projects</Tab>
+          <Tab value="Documents">Documents</Tab>
+        </Tabs>
+      </Content>
+      <Title>Button Group</Title>
+      <Content>
+        <ButtonGroup>
+          <Button>Received invites</Button>
+          <Button>Sent invites</Button>
+        </ButtonGroup>
+      </Content>
+      <Title>Table</Title>
+      <Content>
+        <Table>
+          <thead>
+            <TableRow bold>
+              <TableCol>Project by</TableCol>
+              <TableCol>Invited to project</TableCol>
+              <TableCol>Invited to role</TableCol>
+              <TableCol>Invited by</TableCol>
+              <TableCol></TableCol>
+            </TableRow>
+          </thead>
+          <tbody>
+            <TableRow>
+              <TableCol>Spotify</TableCol>
+              <TableCol>SurveySwap</TableCol>
+              <TableCol><Label icon="/icons/user-blue.png" color="#e0effb" fontColor="#45729b" borderColor="#e0effb" borderRadius="0.3rem">Product Manager</Label></TableCol>
+              <TableCol>Olivia Rhye</TableCol>
+              <TableCol>
+                <Button color="#4B48EC" fontColor="#ffffff">View</Button>
+              </TableCol>
+            </TableRow>
+            <TableRow>
+              <TableCol>Spotify</TableCol>
+              <TableCol>SurveySwap</TableCol>
+              <TableCol><Label icon="/icons/user-blue.png" color="#e0effb" fontColor="#45729b" borderColor="#e0effb" borderRadius="0.3rem">Product Manager</Label></TableCol>
+              <TableCol>Olivia Rhye</TableCol>
+              <TableCol>
+                <Button color="#4B48EC" fontColor="#ffffff">View</Button>
+              </TableCol>
+            </TableRow>
+            <TableRow>
+              <TableCol>Spotify</TableCol>
+              <TableCol>SurveySwap</TableCol>
+              <TableCol><Label icon="/icons/user-blue.png" color="#e0effb" fontColor="#45729b" borderColor="#e0effb" borderRadius="0.3rem">Product Manager</Label></TableCol>
+              <TableCol>Olivia Rhye</TableCol>
+              <TableCol>
+                <Button color="#4B48EC" fontColor="#ffffff">View</Button>
+              </TableCol>
+            </TableRow>
+          </tbody>
+        </Table>
       </Content>
     </div>
   );
