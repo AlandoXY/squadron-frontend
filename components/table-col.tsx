@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, {MouseEventHandler} from "react";
 
-const TableColContainer = styled.td`
+const TableColContainer = styled.td<TableColProps>`
   border-bottom: 1px solid #E5E7EB;
   padding: 15px;
   text-align: ${({textAlign}) => textAlign};
