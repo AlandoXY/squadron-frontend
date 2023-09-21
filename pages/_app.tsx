@@ -1,6 +1,10 @@
 import type { AppProps } from "next/app";
 import { ThemeProvider, DefaultTheme } from "styled-components";
 import GlobalStyle from "@/components/globalstyles";
+import {useEffect, useState} from "react";
+import {initMocks} from "@/mocks";
+
+require('../mocks')
 
 const theme: DefaultTheme = {
   colors: {
@@ -10,11 +14,21 @@ const theme: DefaultTheme = {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [isMock, setIsMock] = useState(false)
+
+  useEffect(() => {
+    initMocks().then(() => {
+      setIsMock(true);
+    })
+  }, [])
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Component {...pageProps} />
+        {
+          isMock && <Component {...pageProps} />
+        }
       </ThemeProvider>
     </>
   );
