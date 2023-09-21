@@ -5,6 +5,7 @@ const NavbarItemContainer = styled.div`
   border-radius: 0.5rem;
   padding: 0.3rem 0.5rem;
   width: 100%;
+  background-color: ${({active}) => active ? "#f9fafb" : "initial"};
   
   &:hover {
     background-color: #f9fafb;
@@ -13,12 +14,13 @@ const NavbarItemContainer = styled.div`
 
 interface NavbarItemProps {
   children: React.ReactNode;
+  active?: boolean;
 }
 
 
-export default function NavbarItem({children}: NavbarItemProps) {
+export default function NavbarItem({children, active}: NavbarItemProps) {
   return (
-    <NavbarItemContainer>
+    <NavbarItemContainer active={active}>
       {children}
     </NavbarItemContainer>
   );
