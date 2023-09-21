@@ -17,9 +17,9 @@ interface LinkProps {
   target?: string;
 }
 
-export default function Link({ children, to, fontSize="16px", color="#4f4cec",  target }: LinkProps) {
+export default function Link({ children, to, fontSize="16px", color="#4f4cec", target, ...rest }: LinkProps) {
   return (
-    <LinkContainer href={to} fontSize={fontSize} color={color} target={target}>
+    <LinkContainer href={to} fontSize={fontSize} color={color} target={target} {...rest}>
       {children}
     </LinkContainer>
   );
