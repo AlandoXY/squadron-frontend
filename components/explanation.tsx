@@ -16,25 +16,28 @@ const ExplanationContent = styled.div`
   color: white;
   background-color: rgba(0, 0, 0, 0.9);
   border-radius: 0.7rem;
+  max-width: ${({maxWidth}) => maxWidth};
+  width: 400px;
 `;
 
 const ExplanationTitle = styled.div`
-  display: inline-block;
+  display: block;
   font-weight: bold;
 `;
 
 const ExplanationDesc = styled.div`
-  display: inline-block;
-  white-space: nowrap;
+  display: block;
+  //white-space: nowrap;
 `;
 
 interface ExplanationProps {
   children: React.ReactNode;
   title?: string;
   desc?: string;
+  maxWidth?: string;
 }
 
-export default function Explanation({ children, title, desc }: ExplanationProps) {
+export default function Explanation({ children, title, desc, maxWidth }: ExplanationProps) {
   const [open, setOpen] = useState(false);
 
   const ref = useOutsideClick(() => {
@@ -46,7 +49,7 @@ export default function Explanation({ children, title, desc }: ExplanationProps)
       {children}
       {
         open && (
-          <ExplanationContent>
+          <ExplanationContent maxWidth={maxWidth}>
             <ExplanationTitle>{title}</ExplanationTitle>
             <ExplanationDesc>{desc}</ExplanationDesc>
           </ExplanationContent>
