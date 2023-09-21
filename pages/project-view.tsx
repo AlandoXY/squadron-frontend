@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Typography from "@/components/typography";
@@ -100,6 +100,16 @@ const Section1ContentRight = styled.div`
 `
 
 export default function ProjectView() {
+  const [skills, setSkills] = useState([])
+
+  useEffect(() => {
+    fetch("https://my.backend/skills")
+      .then(res => res.json())
+      .then(res => {
+        setSkills(res)
+      })
+  }, [])
+
   return (
     <Container>
       <Aside>
@@ -240,11 +250,11 @@ export default function ProjectView() {
                 <Typography>13 AUG</Typography>
               </Row>
             </Row>
-            <Typography fontWeight={500} fontSize="14px" style={{margin: "20px 0"}}>Required skills</Typography>
+            <Typography  fontWeight={500} fontSize="14px" style={{margin: "20px 0"}}>Required skills</Typography>
             <Row style={{gap: 20, marginBottom: 20}}>
-              <Label borderColor="#027A48" fontColor="#027A48">Label</Label>
-              <Label borderColor="#027A48" fontColor="#027A48">Label</Label>
-              <Label borderColor="#027A48" fontColor="#027A48">Label</Label>
+              {
+                skills.map(skill => <Label key={skill} borderColor="#027A48" fontColor="#027A48">{skill}</Label>)
+              }
             </Row>
             <Typography fontWeight={500} fontSize="14px" style={{margin: "20px 0"}}>Recommended skills</Typography>
             <Row style={{gap: 20, marginBottom: 20}}>
