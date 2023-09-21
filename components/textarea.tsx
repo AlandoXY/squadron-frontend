@@ -6,11 +6,12 @@ const TextareaContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  width: 100%;
 `;
 
-const TextareaContent = styled.textarea<any>`
+const TextareaContent = styled.textarea`
   outline: none;
-  width: ${props => props.width + "px"};
+  width: ${({width}) => width};
   height: ${props => props.height + "px"};
   resize: ${props => props.resize ? "both" : "none"};
   border-radius: 6px;
@@ -23,16 +24,16 @@ const TextareaLeftText = styled.div`
 `
 
 interface TextareaProps {
-  children?: React.ReactNode;
+  children?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
   onInput?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
-  width?: number;
+  width?: number | string;
   height?: number;
   limit?: number;
   resize?: boolean;
 }
 
-export default function Textarea({children, type="text", onChange = () => {}, onInput = () => {}, width = 400, height = 200, resize = true, limit = 1000 }: TextareaProps) {
+export default function Textarea({children, onChange = () => {}, onInput = () => {}, width = 400, height = 200, resize = true, limit = 1000 }: TextareaProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const len = e.target.value.length
@@ -51,8 +52,8 @@ export default function Textarea({children, type="text", onChange = () => {}, on
   return (
     <TextareaContainer
     >
-      <TextareaContent type={type} value={children} onChange={handleChange} onInput={handleInput} width={width} height={height} resize={resize} />
-      <TextareaLeftText>{ limit - children.length } characters left</TextareaLeftText>
+      <TextareaContent value={children} onChange={handleChange} onInput={handleInput} width={width} height={height} resize={resize} />
+      <TextareaLeftText>{ limit - (children ? children.length : 0) } characters left</TextareaLeftText>
     </TextareaContainer>
   );
 }
