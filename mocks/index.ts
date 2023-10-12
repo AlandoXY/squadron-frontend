@@ -4,7 +4,13 @@ async function initMocks() {
     server.listen()
   } else {
     const { worker } = await import('./browser')
-    worker.start()
+    worker.start({
+      onUnhandledRequest(req, print) {
+        if (req.url.pathname.startsWith('/loremflickr.com')) {
+          return
+        }
+      }
+    })
   }
 }
 
