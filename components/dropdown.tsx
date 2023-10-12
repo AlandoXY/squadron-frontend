@@ -7,6 +7,7 @@ const DropdownContainer = styled.div`
   display: inline-flex;
   position: relative;
   width: ${({fullWidth}) => fullWidth ? '100%' : 'auto'};
+  background-color: white;
 `;
 
 const DropdownInputContainer = styled.div`

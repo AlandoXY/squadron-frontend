@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import React from "react";
 
-const TypographyContainer = styled.div<any>`
+const TypographyContainer = styled.div`
   color: ${props => props.color};
-  font-size: ${props => props.fontSize};
+  font-size: ${({fontSize}) => typeof fontSize === 'number' ? fontSize + 'px' : fontSize};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
   font-weight: ${props => props.fontWeight};
@@ -12,7 +12,7 @@ const TypographyContainer = styled.div<any>`
 
 interface TypographyProps {
   children: React.ReactNode;
-  fontSize?: string;
+  fontSize?: string | number;
   color?: string;
   component?: string;
   margin?: string;

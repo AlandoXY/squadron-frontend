@@ -10,6 +10,7 @@ const FileUploadContainer = styled.div`
   border: 1px solid #E5E7EB;
   border-radius: 12px;
   padding: 1rem 1.5rem;
+  width: 100%;
 `;
 
 const FileUploadImageOuterContainer = styled.div`

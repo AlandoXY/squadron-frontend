@@ -18,10 +18,10 @@ export const TabsContext = React.createContext({
   onChange: (value: string) => {},
 });
 
-export default function Tabs({ children, value = "", onChange = () => {} }: TabsProps) {
+export default function Tabs({ children, value = "", onChange = () => {}, ...rest }: TabsProps) {
   return (
     <TabsContext.Provider value={{value: value!, onChange: onChange!}}>
-      <TabsContainer>
+      <TabsContainer {...rest}>
         {children}
       </TabsContainer>
     </TabsContext.Provider>

@@ -22,6 +22,7 @@ const ModalContent = styled.div`
   padding: 10px 20px;
   width: ${({width}) => width + 'px'};
   min-height: ${({height}) => height + 'px'};
+  overflow: hidden;
 `;
 
 const CloseButton = styled.div`
@@ -39,10 +40,10 @@ interface ModalProps {
   closeButton?: boolean;
 }
 
-export default function Modal({ children, open = false, width = 300, height = 200, closeButton, handleClose = () => {} }: ModalProps) {
+export default function Modal({ children, open = false, width = 300, height = 200, closeButton, handleClose = () => {}, ...rest }: ModalProps) {
   return open ?(
-    <ModalContainer>
-      <ModalContent width={width} height={height}>
+    <ModalContainer onClick={handleClose!}>
+      <ModalContent width={width} height={height} {...rest} onClick={e => e.stopPropagation()}>
         {
           closeButton && (
             <CloseButton>

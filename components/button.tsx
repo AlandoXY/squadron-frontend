@@ -10,7 +10,8 @@ const ButtonContainer = styled.button`
     border-radius: 0.3rem;
     background-color: ${props => props.color};
     color: ${props => props.fontColor};
-    cursor: pointer;
+    cursor: ${({disabled}) => disabled ? "not-allowed" : "pointer"};
+    opacity: ${({disabled}) => disabled ? 0.5 : 1};
   `;
 
 interface ButtonProps {
@@ -21,11 +22,12 @@ interface ButtonProps {
   fullWidth?: boolean;
   width?: string;
   height?: string;
+  disabled?: boolean;
 }
 
-export default function Button({ children, color = '#f0f0f0', fontColor = '#000', onClick, fullWidth, width, height, ...rest }: ButtonProps) {
+export default function Button({ children, color = '#f0f0f0', fontColor = '#000', onClick, fullWidth, width, height, disabled=false, ...rest }: ButtonProps) {
   return (
-    <ButtonContainer color={color} fontColor={fontColor} onClick={(e) => onClick && onClick(e)} fullWidth={fullWidth} width={width} height={height} {...rest}>
+    <ButtonContainer color={color} fontColor={fontColor} onClick={(e) => onClick && onClick(e)} fullWidth={fullWidth} width={width} height={height} disabled={disabled} {...rest}>
       {children}
     </ButtonContainer>
   );

@@ -8,7 +8,8 @@ const TabContainer = styled.div`
   border-bottom: ${({active, color}) => active ? `3px solid ${color}` : "3px solid transparent"};
   padding: 10px 25px;
   cursor: pointer;
-  color: ${({active, color}) => active ? color : "initial"};;
+  color: ${({active, color}) => active ? color : "initial"};
+  justify-content: center;
   
   &:hover {
     color: ${props => props.color};
@@ -21,11 +22,11 @@ interface TabProps {
   color?: string;
 }
 
-export default function Tab({ children, value, color = "#6941C6" }: TabProps) {
+export default function Tab({ children, value, color = "#6941C6", ...rest }: TabProps) {
   const { value: parentValue, onChange } = useContext(TabsContext);
 
   return (
-    <TabContainer color={color} active={parentValue === value} onClick={() => onChange(value || "")}>
+    <TabContainer color={color} active={parentValue === value} onClick={() => onChange(value || "")} {...rest}>
       {children}
     </TabContainer>
   );

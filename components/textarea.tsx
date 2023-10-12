@@ -11,7 +11,7 @@ const TextareaContainer = styled.div`
 
 const TextareaContent = styled.textarea`
   outline: none;
-  width: ${({width}) => width};
+  width: ${({width}) => typeof width === 'number' ? width + 'px' : width};
   height: ${props => props.height + "px"};
   resize: ${props => props.resize ? "both" : "none"};
   border-radius: 6px;
@@ -31,9 +31,10 @@ interface TextareaProps {
   height?: number;
   limit?: number;
   resize?: boolean;
+  withLimit?: boolean;
 }
 
-export default function Textarea({children, onChange = () => {}, onInput = () => {}, width = 400, height = 200, resize = true, limit = 1000 }: TextareaProps) {
+export default function Textarea({children, onChange = () => {}, onInput = () => {}, width = 400, height = 200, resize = true, limit = 1000, withLimit = true, ...rest }: TextareaProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const len = e.target.value.length
@@ -52,8 +53,10 @@ export default function Textarea({children, onChange = () => {}, onInput = () =>
   return (
     <TextareaContainer
     >
-      <TextareaContent value={children} onChange={handleChange} onInput={handleInput} width={width} height={height} resize={resize} />
-      <TextareaLeftText>{ limit - (children ? children.length : 0) } characters left</TextareaLeftText>
+      <TextareaContent value={children} onChange={handleChange} onInput={handleInput} width={width} height={height} resize={resize} {...rest} />
+      {
+        withLimit && <TextareaLeftText>{ limit - (children ? children.length : 0) } characters left</TextareaLeftText>
+      }
     </TextareaContainer>
   );
 }
