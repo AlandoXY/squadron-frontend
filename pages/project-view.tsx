@@ -2,14 +2,21 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Typography from "@/components/typography";
-import NavbarItem from "@/components/navbar-item";
 import IconButton from "@/components/icon-button";
-import Navbar from "@/components/navbar";
 import Button from "@/components/button";
 import Link from "@/components/link";
 import VideoPlayer from "@/components/video-player";
 import Label from "@/components/label";
 import Explanation from "@/components/explanation";
+import ReferSquadmate from "@/components/project-view/refer-squadmate";
+import ReferResult from "@/components/project-view/refer-result";
+import AskQuestion from "@/components/project-view/ask-question";
+import Message from "@/components/message";
+import {AsideBar} from "@/components/aside-bar";
+import CompleteProfile from "@/components/project-view/complete-profile";
+import SocialMedia from "@/components/project-view/social-media";
+import RequirementsDontMatch from "@/components/project-view/requirements-dont-match";
+import {useRouter} from "next/router";
 
 const Container = styled.div`
   display: flex;
@@ -101,6 +108,14 @@ const Section1ContentRight = styled.div`
 
 export default function ProjectView() {
   const [skills, setSkills] = useState([])
+  const [referOpen, setReferOpen] = useState(false)
+  const [referResultOpen, setReferResultOpen] = useState(false)
+  const [askQuestionOpen, setAskQuestionOpen] = useState(false)
+  const [completeProfileOpen, setCompleteProfileOpen] = useState(false)
+  const [dontMatchOpen, setDontMatchOpen] = useState(false)
+  const [openMessage, setOpenMessage] = useState(false);
+
+  const router = useRouter()
 
   useEffect(() => {
     fetch("https://my.backend/skills")
@@ -112,32 +127,7 @@ export default function ProjectView() {
 
   return (
     <Container>
-      <Aside>
-        <AsideTop>
-          <Image src="/icons/logo.png" width={30} height={30} alt="Logo" />
-          <Typography>squadron</Typography>
-        </AsideTop>
-        <Navbar>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/dashboard.png">Dashboard</IconButton>
-          </NavbarItem>
-          <NavbarItem active>
-            <IconButton width={20} height={20} icon="/icons/projects.png">Projects</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/wallet.png">Wallet</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/sustainability.png">Sustainability</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/resource.png">Resources</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/perks.png">Perks</IconButton>
-          </NavbarItem>
-        </Navbar>
-      </Aside>
+      <AsideBar />
       <Content>
         <Row style={{marginBottom: 30}}>
           <Typography color="#1B18E4">&lt; Back to projects</Typography>
@@ -153,7 +143,7 @@ export default function ProjectView() {
             <Section1TopRight>
               <IconButton icon="/icons/share-07.png" width={20} height={20} />
               <IconButton icon="/icons/star-01.png" width={20} height={20} />
-              <Button fontColor="Apply as squad" color="#D0FC4A">Apply as squad</Button>
+              <Button fontColor="Apply as squad" color="#D0FC4A" onClick={() => setCompleteProfileOpen(true)}>Apply as squad</Button>
             </Section1TopRight>
           </Section1Top>
           <Section1Content>
@@ -194,7 +184,7 @@ export default function ProjectView() {
                   <Typography fontWeight={600}>Project consultant</Typography>
                 </div>
               </Row>
-              <Button color="#4B48EC" fontColor="white" fullWidth>Ask a question</Button>
+              <Button color="#4B48EC" fontColor="white" fullWidth onClick={() => setAskQuestionOpen(true)}>Ask a question</Button>
             </Section1ContentLeft>
             <Section1ContentRight>
               <Typography component="h2" fontWeight={600} fontSize="18px" style={{marginBottom: 20}}>Project outline</Typography>
@@ -225,8 +215,8 @@ export default function ProjectView() {
                 <Typography fontSize="20px" color="#111927" fontWeight={500}>Full stack</Typography>
               </Row>
               <Row>
-                <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB", marginRight: 20}}>Refer</Button>
-                <Button color="#4B48EC" fontColor="#ffffff">Apply</Button>
+                <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB", marginRight: 20}} onClick={() => setReferOpen(true)}>Refer</Button>
+                <Button color="#4B48EC" fontColor="#ffffff" onClick={() => setCompleteProfileOpen(true)}>Apply</Button>
               </Row>
             </Row>
             <Row style={{borderBottom: "1px solid #E5E7EB", padding: "24px 0"}}>
@@ -250,7 +240,7 @@ export default function ProjectView() {
                 <Typography>13 AUG</Typography>
               </Row>
             </Row>
-            <Typography  fontWeight={500} fontSize="14px" style={{margin: "20px 0"}}>Required skills</Typography>
+            <Typography fontWeight={500} fontSize="14px" style={{margin: "20px 0"}}>Required skills</Typography>
             <Row style={{gap: 20, marginBottom: 20}}>
               {
                 skills.map(skill => <Label key={skill} borderColor="#027A48" fontColor="#027A48">{skill}</Label>)
@@ -284,7 +274,7 @@ export default function ProjectView() {
               </Row>
               <Row>
                 <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB", marginRight: 20}}>Refer</Button>
-                <Button color="#4B48EC" fontColor="#ffffff">Apply</Button>
+                <Button color="#4B48EC" fontColor="#ffffff" onClick={() => setDontMatchOpen(true)}>Apply</Button>
               </Row>
             </Row>
             <Row style={{borderBottom: "1px solid #E5E7EB", padding: "24px 0"}}>
@@ -326,7 +316,7 @@ export default function ProjectView() {
               </Row>
               <Row>
                 <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB", marginRight: 20}}>Refer</Button>
-                <Button color="#4B48EC" fontColor="#ffffff">Apply</Button>
+                <Button color="#4B48EC" fontColor="#ffffff" onClick={() => router.push('/apply-as-squad')}>Apply</Button>
               </Row>
             </Row>
             <Row style={{borderBottom: "1px solid #E5E7EB", padding: "24px 0"}}>
@@ -348,6 +338,19 @@ export default function ProjectView() {
           </Section1Top>
         </Card>
       </Content>
+      <ReferSquadmate open={referOpen} setOpen={setReferOpen} handleSubmit={() => {
+        setReferOpen(false)
+        setReferResultOpen(true)
+      }} />
+      <ReferResult open={referResultOpen} setOpen={setReferResultOpen} />
+      <AskQuestion open={askQuestionOpen} setOpen={setAskQuestionOpen} handleSubmit={() => {
+        setAskQuestionOpen(false)
+        setOpenMessage(true)
+      }} />
+      <CompleteProfile open={completeProfileOpen} setOpen={setCompleteProfileOpen} />
+      <RequirementsDontMatch open={dontMatchOpen} setOpen={setDontMatchOpen} />
+      <SocialMedia open={false} setOpen={() => {}} />
+      <Message open={openMessage} onClose={() => setOpenMessage(false)} color="#724fcc" fontColor="white">Your question has been sent. You will receive a response in your email</Message>
     </Container>
   )
 }

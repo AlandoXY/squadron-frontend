@@ -47,7 +47,7 @@ export default function Home() {
           </HeaderMenus>
         </Box>
         <Box>
-          <Button style={{marginRight: 10}} color="transparent" onClick={() => router.push('login')} >Log in</Button>
+          <Button style={{marginRight: 10}} color="transparent" onClick={() => router.push('c/location-type')} >Log in</Button>
           <Button color="#111927" fontColor="white" onClick={() => router.push('signup')}>Sign up</Button>
         </Box>
       </Header>

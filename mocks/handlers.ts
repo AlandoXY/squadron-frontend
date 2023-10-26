@@ -46,7 +46,7 @@ export const handlers = [
     }
 
     return res(
-      ctx.json(faker.helpers.arrayElement([[], saveJobs]))
+      ctx.json(faker.helpers.arrayElement([saveJobs]))
       // ctx.json(saveJobs)
     )
   }),

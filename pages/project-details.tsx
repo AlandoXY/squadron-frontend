@@ -1,15 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import Typography from "@/components/typography";
-import NavbarItem from "@/components/navbar-item";
 import IconButton from "@/components/icon-button";
-import Navbar from "@/components/navbar";
-import Label from "@/components/label";
 import Box from "@/components/box";
-import Table from "@/components/table";
-import TableRow from "@/components/table-row";
-import TableCol from "@/components/table-col";
-import Dropdown from "@/components/dropdown";
 import Tabs from "@/components/tabs";
 import Tab from "@/components/tab";
 import Button from "@/components/button";
