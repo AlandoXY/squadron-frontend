@@ -11,6 +11,8 @@ import {Doughnut} from "react-chartjs-2";
 import {DashboardHeaderC} from "@/components/dashboard-header-c";
 import {useRouter} from "next/navigation";
 import {AsideBarC} from "@/components/aside-bar-c";
+import CreateProject from "@/components/c/home/create-project";
+import ProjectStarted from "@/components/c/home/project-started";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -50,6 +52,10 @@ const Card = styled.div`
 `
 
 export default function HomeScreen() {
+
+  const [createProject, setCreateProject] = useState(false)
+  const [projectStartedOpen, setProjectStartedOpen] = useState(false)
+
   const router = useRouter()
 
   return (
@@ -60,7 +66,7 @@ export default function HomeScreen() {
         <ContentMain>
           <Box justifyContent="space-between" style={{marginTop: 30, padding: "15px 0", borderBottom: "1px solid #E5E7EB"}}>
             <Typography color="#111927" fontSize={30} fontWeight={600}>Hi, Stir 👋</Typography>
-            <IconButton icon="/icons/plus-white.png" width={20} height={20} color="#4B48EC" fontColor="white">Create project</IconButton>
+            <IconButton icon="/icons/plus-white.png" width={20} height={20} color="#4B48EC" fontColor="white" onClick={() => setCreateProject(true)}>Create project</IconButton>
           </Box>
           <Box justifyContent="space-between" style={{marginTop: 30, padding: "15px 0"}}>
             <Box>
@@ -87,7 +93,7 @@ export default function HomeScreen() {
           <Card>
             <Box style={{margin: 30, padding: "10px 16px", borderRadius: 8, backgroundColor: "#F3F4F6"}}>
               <Typography color="#4D5761" fontSize={14}>You don’t have any projects in formation at the moment</Typography>
-              <Typography color="#1B18E4" fontWeight={600} fontSize={14} style={{marginLeft: 15}}>Create project</Typography>
+              <Typography color="#1B18E4" fontWeight={600} fontSize={14} style={{marginLeft: 15}} onClick={() => setCreateProject(true)}>Create project</Typography>
             </Box>
           </Card>
           <Box style={{gap: 20}}>
@@ -110,14 +116,14 @@ export default function HomeScreen() {
                   <Box style={{width: 16, height: 16, borderRadius: "50%", backgroundColor: "#D2D6DB", marginBottom: 10}}></Box>
                 </Box>
                 <Box vertical style={{flex: 1, marginLeft: 10}}>
-                  <Box justifyContent="space-between" fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8}}>
+                  <Box justifyContent="space-between" fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8, cursor: "pointer"}} onClick={() => router.push('/c/squads-applications')}>
                     <Typography color="#4D5761">Project Details</Typography>
                     <Image src="/icons/chevron-right.png" alt="chevron right" width={24} height={24} />
                   </Box>
                   <Box fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8}}>
                     <Typography color="#4D5761">Collecting Applicants</Typography>
                   </Box>
-                  <Box justifyContent="space-between" fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8}}>
+                  <Box justifyContent="space-between" fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8 , cursor: "pointer"}} onClick={() => router.push('/c/squads-applications')}>
                     <Typography color="#4D5761">Reviewing Applications</Typography>
                     <Image src="/icons/chevron-right.png" alt="chevron right" width={24} height={24} />
                   </Box>
@@ -128,8 +134,9 @@ export default function HomeScreen() {
               </Box>
             </Card>
             <Card style={{flex: 1}}>
-              <Box style={{backgroundColor: "#0B0F00", padding: 20}}>
+              <Box justifyContent="space-between" style={{backgroundColor: "#0B0F00", padding: 20}}>
                 <Typography color="white" fontSize={18} fontWeight={500}>Name of the project</Typography>
+                <Button color="#D0FC4A" fontColor="#384250" onClick={() => setProjectStartedOpen(true)}>Start project</Button>
               </Box>
               <Box style={{padding: 20}}>
                 <Box flexDirection="column" justifyContent="center">
@@ -142,7 +149,7 @@ export default function HomeScreen() {
                   <Box style={{width: 16, height: 16, borderRadius: "50%", backgroundColor: "#D2D6DB", marginBottom: 10}}></Box>
                 </Box>
                 <Box vertical style={{flex: 1, marginLeft: 10}}>
-                  <Box justifyContent="space-between" fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8}}>
+                  <Box justifyContent="space-between" fullWidth style={{backgroundColor: "#FEF0C7", marginBottom: 10, padding: "8px 16px", borderRadius: 8, cursor: "pointer"}} onClick={() => router.push('/c/squads-applications')}>
                     <Typography color="#4D5761">Project Details</Typography>
                     <Image src="/icons/chevron-right.png" alt="chevron right" width={24} height={24} />
                   </Box>
@@ -362,6 +369,11 @@ export default function HomeScreen() {
           </Card>
         </ContentMain>
       </Content>
+      <CreateProject open={createProject} setOpen={setCreateProject} />
+      <ProjectStarted open={projectStartedOpen} setOpen={setProjectStartedOpen} handleSubmit={() => {
+        setProjectStartedOpen(false);
+        router.push("/c/project-details?start=true");
+      }} />
     </Container>
   )
 }

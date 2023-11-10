@@ -2,7 +2,12 @@ import styled from "styled-components";
 import React, {HTMLInputTypeAttribute} from "react";
 import Image from "next/image";
 
-const InputContainer = styled.div`
+interface InputContainerProps {
+  noBorder?: boolean;
+  fullWidth?: boolean;
+}
+
+const InputContainer = styled.div<InputContainerProps>`
   display: inline-flex;
   justify-content: flex-start;
   align-items: center;
@@ -13,7 +18,13 @@ const InputContainer = styled.div`
   background-color: white;
 `;
 
-const InputContent = styled.input`
+interface InputInnerProps {
+  fullWidth?: boolean;
+  width?: number | string;
+  value?: string | React.ReactNode | undefined;
+}
+
+const InputContent = styled.input<InputInnerProps>`
   border: none;
   outline: none;
   width: ${({fullWidth, width}) => fullWidth ? '100%' : (typeof width === "number" ? (width + "px") : width)};
@@ -22,7 +33,7 @@ const InputContent = styled.input`
 `
 
 interface InputProps {
-  children?: React.ReactNode;
+  children?: string;
   value?: string;
   type?: HTMLInputTypeAttribute
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -38,9 +49,11 @@ interface InputProps {
   prefixIconHeight?: number;
   suffixIconWidth?: number;
   suffixIconHeight?: number;
+  readOnly?: boolean;
+  containerRest?: React.ComponentPropsWithoutRef<"div">
 }
 
-export default function Input({ value="", children, type="text", onChange = () => {}, onInput = () => {}, width = 200, height = 25, prefixIcon, suffixIcon, placeholder, prefixIconWidth, prefixIconHeight, suffixIconWidth, suffixIconHeight, fullWidth, noBorder, containerRest, ...rest }: InputProps) {
+export default function Input({ value="", children, type="text", onChange = () => {}, onInput = () => {}, width = 200, height = 25, prefixIcon, suffixIcon, placeholder, prefixIconWidth, prefixIconHeight, suffixIconWidth, suffixIconHeight, fullWidth, noBorder, containerRest, readOnly, ...rest }: InputProps) {
   return (
     <InputContainer
       fullWidth={fullWidth}
@@ -48,7 +61,7 @@ export default function Input({ value="", children, type="text", onChange = () =
       {...containerRest}
     >
       { prefixIcon && <Image src={prefixIcon} width={prefixIconWidth || 20} height={prefixIconHeight || 20} style={{marginRight: 8}} alt="Icon" /> }
-      <InputContent type={type} value={value || children} onChange={onChange} onInput={onInput} width={width} height={height} placeholder={placeholder} fullWidth={fullWidth} {...rest} />
+      <InputContent type={type} value={value || children} onChange={onChange} onInput={onInput} width={width} height={height} placeholder={placeholder} fullWidth={fullWidth} readOnly={readOnly} {...rest} />
       { suffixIcon && <Image src={suffixIcon} width={suffixIconWidth || 20} height={suffixIconHeight || 20} style={{marginLeft: 8}} alt="Icon" /> }
     </InputContainer>
   );

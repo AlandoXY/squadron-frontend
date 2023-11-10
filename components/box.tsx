@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 
-const BoxContainer = styled.div`
+const BoxContainer = styled.div<BoxContainerProps>`
   display: ${({display}) => display};
   align-items: ${({alignItem, vertical}) => vertical ? 'flex-start' : alignItem};
   justify-content: ${({justifyContent}) => justifyContent};
@@ -17,11 +17,13 @@ interface BoxContainerProps {
   flexDirection?: string;
   fullWidth?: boolean;
   vertical?: boolean;
+  style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
-export default function Box({ children, display = "flex", alignItem = "center", justifyContent = "flex-start", flexDirection = "row", fullWidth = false, vertical = false, ...rest }: BoxContainerProps) {
+export default function Box({ children, display = "flex", alignItem = "center", justifyContent = "flex-start", flexDirection = "row", fullWidth = false, vertical = false, style, onClick, ...rest }: BoxContainerProps) {
   return (
-    <BoxContainer display={display} alignItem={alignItem} justifyContent={justifyContent} flexDirection={flexDirection} fullWidth={fullWidth} vertical={vertical} {...rest}>
+    <BoxContainer display={display} alignItem={alignItem} justifyContent={justifyContent} flexDirection={flexDirection} fullWidth={fullWidth} vertical={vertical} style={style} onClick={onClick} {...rest}>
       {children}
     </BoxContainer>
   );

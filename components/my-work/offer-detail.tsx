@@ -5,10 +5,6 @@ import React from "react";
 import Textarea from "@/components/textarea";
 import Box from "@/components/box";
 import Image from "next/image";
-import TableRow from "@/components/table-row";
-import TableCol from "@/components/table-col";
-import Label from "@/components/label";
-import Table from "@/components/table";
 import Link from "@/components/link";
 
 export default function OfferDetail({ open, setOpen, handleSubmit }) {

@@ -27,6 +27,7 @@ import {host} from "@/mocks/handlers";
 import ButtonGroup from "@/components/button-group";
 import Badge from "@/components/badge";
 import Popover from "@/components/popover";
+import {B} from "msw/lib/glossary-de6278a9";
 import InviteReview from "@/components/my-work/invite-review";
 import OfferDetail from "@/components/my-work/offer-detail";
 import OfferView from "@/components/my-work/offer-view";

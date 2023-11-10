@@ -22,7 +22,7 @@ const Header = styled.div`
   color: #4D5761;
 `;
 
-export default function JoinSuccess() {
+export default function ProfileSuccess() {
   return (
     <HomeContainer>
       <Header>

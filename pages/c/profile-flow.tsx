@@ -2,48 +2,19 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Typography from "@/components/typography";
-import NavbarItem from "@/components/navbar-item";
 import IconButton from "@/components/icon-button";
-import Navbar from "@/components/navbar";
 import Button from "@/components/button";
 import Link from "@/components/link";
-import VideoPlayer from "@/components/video-player";
 import Label from "@/components/label";
-import Explanation from "@/components/explanation";
-import ProgressBar from "@/components/progress-bar";
 import Box from "@/components/box";
-import LanguageEdit from "@/components/profile-edit/language-edit";
-import AboutMe from "@/components/profile-edit/about-me";
-import SocialMedia from "@/components/profile-edit/social-media";
-import Skills from "@/components/profile-edit/skills";
-import Tools from "@/components/profile-edit/tools";
-import AddOrEditExperience from "@/components/profile-edit/add-or-edit-experience";
-import Delete from "@/components/profile-edit/delete";
-import Popover from "@/components/popover";
-import DeleteProject from "@/components/profile-edit/delete-project";
-import EditProject from "@/components/profile-edit/edit-project";
-import ViewProject from "@/components/profile-edit/view-project";
 import {host} from "@/mocks/handlers";
 import Pagination from "@/components/pagination";
+import AvatarGroups from "@/components/avatar-groups";
+import {AsideBarC} from "@/components/aside-bar-c";
 
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
-`
-
-const Aside = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 312px;
-  border-right: 1px solid #E5E7EB;
-  align-items: flex-start;
-`
-
-const AsideTop = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 20px 10px;
 `
 
 const Content = styled.div`
@@ -122,7 +93,7 @@ const Section1ContentRight = styled.div`
   border-left: 1px solid #EAECF0;
 `
 
-export default function ProfileEdit() {
+export default function ProfileFlow() {
   const [projects, setProjects] = useState([]);
   const [filterProjects, setFilterProjects] = useState([]);
   const [page, setPage] = useState(1);
@@ -138,40 +109,7 @@ export default function ProfileEdit() {
 
   return (
     <Container>
-      <Aside>
-        <AsideTop>
-          <Image src="/icons/logo.png" width={30} height={30} alt="Logo" />
-          <Typography>squadron</Typography>
-        </AsideTop>
-        <Box fullWidth style={{padding: "10px 20px 30px 20px"}}>
-          <Box flexDirection="column" alignItem="flex-start" style={{backgroundColor: '#F9FAFB', borderRadius: 8, padding: "20px 16px"}}>
-            <Typography color="#101828" fontWeight={600} fontSize="14px" style={{marginBottom: 5}}>70% of profile complete</Typography>
-            <Typography color="#475467" fontSize="14px" style={{marginBottom: 15}}>Lorem ipsum dolor sit amet, consectetur di set adipiscing elit morbi morbi dui pretium.</Typography>
-            <ProgressBar value={20} color="#A0D909" height={8} bgColor="#E5E7EB" />
-            <Button color="#111927" fontColor="white" fullWidth style={{marginTop: 20}}>Complete profile</Button>
-          </Box>
-        </Box>
-        <Navbar>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/dashboard.png">Dashboard</IconButton>
-          </NavbarItem>
-          <NavbarItem active>
-            <IconButton width={20} height={20} icon="/icons/projects.png">Projects</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/wallet.png">Wallet</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/sustainability.png">Sustainability</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/resource.png">Resources</IconButton>
-          </NavbarItem>
-          <NavbarItem>
-            <IconButton width={20} height={20} icon="/icons/perks.png">Perks</IconButton>
-          </NavbarItem>
-        </Navbar>
-      </Aside>
+      <AsideBarC />
       <Content>
         <ContentHeader>
           <Typography color="#111927" fontWeight={500} fontSize="18px">My Profile</Typography>
@@ -240,6 +178,16 @@ export default function ProfileEdit() {
               </Section1ContentRight>
             </Section1Content>
           </Card>
+          <Box justifyContent="space-between" style={{marginBottom: 30}}>
+            <Box>
+              <Typography color="#111927" fontWeight={600} fontSize={24}>Open projects</Typography>
+              <Link style={{fontWeight: 600, marginLeft: 30}}>See all</Link>
+            </Box>
+            <Box>
+              <IconButton color="white" fontColor="#344054" style={{border: "1px solid #D0D5DD", marginRight: 20}} icon="/icons/arrow-left.png" width={20} height={20} />
+              <IconButton color="white" fontColor="#344054" style={{border: "1px solid #D0D5DD"}} icon="/icons/arrow-right-1.png" width={20} height={20} />
+            </Box>
+          </Box>
           <Box vertical fullWidth>
             {
               filterProjects.slice((page - 1) * 10, page * 10).map(project => (
@@ -284,11 +232,7 @@ export default function ProfileEdit() {
                         <Box vertical>
                           <Typography color="#111927" fontSize={14} fontWeight={600}>Squadmates</Typography>
                           <Box style={{marginTop: 15}}>
-                            <Image src="/icons/avatar-1.png" alt="Avatar" width={32} height={32} />
-                            <Image src="/icons/avatar-1.png" alt="Avatar" width={32} height={32} />
-                            <Image src="/icons/avatar-1.png" alt="Avatar" width={32} height={32} />
-                            <Image src="/icons/avatar-1.png" alt="Avatar" width={32} height={32} />
-                            <Image src="/icons/avatar-1.png" alt="Avatar" width={32} height={32} />
+                            <AvatarGroups avatars={['/icons/avatar-1.png', '/icons/avatar-2.png', '/icons/avatar-3.png', '/icons/avatar-1.png', '/icons/avatar-2.png', '/icons/avatar-3.png']} />
                           </Box>
                         </Box>
                       </Box>

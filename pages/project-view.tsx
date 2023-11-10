@@ -2,7 +2,9 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Typography from "@/components/typography";
+import NavbarItem from "@/components/navbar-item";
 import IconButton from "@/components/icon-button";
+import Navbar from "@/components/navbar";
 import Button from "@/components/button";
 import Link from "@/components/link";
 import VideoPlayer from "@/components/video-player";
@@ -12,10 +14,12 @@ import ReferSquadmate from "@/components/project-view/refer-squadmate";
 import ReferResult from "@/components/project-view/refer-result";
 import AskQuestion from "@/components/project-view/ask-question";
 import Message from "@/components/message";
+import HideProject from "@/components/project-view/hide-project";
 import {AsideBar} from "@/components/aside-bar";
 import CompleteProfile from "@/components/project-view/complete-profile";
 import SocialMedia from "@/components/project-view/social-media";
 import RequirementsDontMatch from "@/components/project-view/requirements-dont-match";
+import {router} from "next/client";
 import {useRouter} from "next/router";
 
 const Container = styled.div`

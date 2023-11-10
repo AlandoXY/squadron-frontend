@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, {MouseEventHandler} from "react";
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.button<ButtonProps>`
     display: ${({fullWidth}) => fullWidth ? 'block' : 'inline-block'};
     width: ${({fullWidth, width}) => fullWidth ? '100%' : (width || 'auto')};
     height: ${({height}) => (height || 'auto')};
@@ -23,11 +23,12 @@ interface ButtonProps {
   width?: string;
   height?: string;
   disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
-export default function Button({ children, color = '#f0f0f0', fontColor = '#000', onClick, fullWidth, width, height, disabled=false, ...rest }: ButtonProps) {
+export default function Button({ children, color = '#f0f0f0', fontColor = '#000', onClick, fullWidth, width, height, disabled=false, style, ...rest }: ButtonProps) {
   return (
-    <ButtonContainer color={color} fontColor={fontColor} onClick={(e) => onClick && onClick(e)} fullWidth={fullWidth} width={width} height={height} disabled={disabled} {...rest}>
+    <ButtonContainer color={color} fontColor={fontColor} onClick={(e) => onClick && onClick(e)} fullWidth={fullWidth} width={width} height={height} disabled={disabled} style={style} {...rest}>
       {children}
     </ButtonContainer>
   );

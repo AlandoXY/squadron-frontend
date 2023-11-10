@@ -12,10 +12,13 @@ import {AsideBar} from "@/components/aside-bar";
 import {useSearchParams} from "next/navigation";
 import {host} from "@/mocks/handlers";
 import Pagination from "@/components/pagination";
-import Popover from "@/components/popover";
+import Popover, { PopoverHandle } from "@/components/popover";
 import HideProject from "@/components/project-view/hide-project";
 import ShareProject from "@/components/project-view/share-project";
 import {DashboardHeader} from "@/components/dashboard-header";
+import Table from "@/components/table";
+import TableRow from "@/components/table-row";
+import TableCol from "@/components/table-col";
 
 const Container = styled.div`
   display: flex;
@@ -52,17 +55,28 @@ const Card = styled.div`
   margin-bottom: 30px;
 `
 
+export type Project = {
+  labels: string[];
+  company: string;
+  description: string;
+  roles: string[];
+  skills: string[];
+  maxRate: number;
+  minRate: number;
+  locations: string[];
+}
+
 export default function DashboardSearchProjects() {
   const searchParams = useSearchParams()
-  const query = searchParams.get('query')
+  const query = searchParams?.get('query')
 
   const [searchText, setSearchText] = useState(query);
-  const [searchTextTemp, setSearchTextTemp] = useState(query);
-  const [projects, setProjects] = useState([]);
-  const [filterProjects, setFilterProjects] = useState([]);
+  const [searchTextTemp, setSearchTextTemp] = useState(query || '');
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [filterProjects, setFilterProjects] = useState<Project[]>([]);
   const [page, setPage] = useState(1);
 
-  const roleRef = useRef();
+  const roleRef = useRef<PopoverHandle>();
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedRoleTemp, setSelectedRoleTemp] = useState('');
 
@@ -77,8 +91,8 @@ export default function DashboardSearchProjects() {
   const [selectedRateTempMax, setSelectedRateTempMax] = useState('');
 
   const locationRef = useRef();
-  const [selectedLocation, setSelectedLocation] = useState([]);
-  const [selectedLocationTemp, setSelectedLocationTemp] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState<string[]>([]);
+  const [selectedLocationTemp, setSelectedLocationTemp] = useState<string[]>([]);
 
   const weekRef = useRef();
   const [selectedWeekMin, setSelectedWeekMin] = useState('');
@@ -177,7 +191,7 @@ export default function DashboardSearchProjects() {
                       <Button color="#4B48EC" fontColor="white" onClick={(e) => {
                         e.stopPropagation()
                         setSelectedRole(selectedRoleTemp)
-                        roleRef.current.toggle()
+                        roleRef.current?.toggle()
                       }}>Apply</Button>
                     </Box>
                   </Box>
@@ -235,7 +249,7 @@ export default function DashboardSearchProjects() {
                       <Button color="#4B48EC" fontColor="white" onClick={(e) => {
                         e.stopPropagation()
                         setSelectedSkill(selectedSkillTemp)
-                        skillRef.current.toggle()
+                        skillRef.current?.toggle()
                       }}>Apply</Button>
                     </Box>
                   </Box>
@@ -328,7 +342,7 @@ export default function DashboardSearchProjects() {
                       <Button color="#4B48EC" fontColor="white" onClick={(e) => {
                         e.stopPropagation()
                         setSelectedLocation(selectedLocationTemp)
-                        locationRef.current.toggle()
+                        locationRef.current?.toggle()
                       }}>Apply</Button>
                     </Box>
                   </Box>
@@ -401,49 +415,7 @@ export default function DashboardSearchProjects() {
               {
                 filterProjects.slice((page - 1) * 10, page * 10).map(project => (
                   <Box key={project.id} fullWidth>
-                    <Card>
-                      <Box justifyContent="space-between" style={{padding: 20, borderBottom: "1px solid #F3F4F6"}}>
-                        <Box style={{gap: 15}}>
-                          {
-                            project.labels.map((label, index) => <Label key={index} color="#F3F4F6" borderColor="#F3F4F6">{label}</Label>)
-                          }
-                        </Box>
-                        <Box style={{gap: 15}}>
-                          <IconButton icon="/icons/share.png" width={24} height={24} onClick={() => setShareProjectOpen(true)} />
-                          <IconButton icon="/icons/star-02.png" width={24} height={24} />
-                          <IconButton icon="/icons/eye-off.png" width={16} height={16} style={{border: "1px solid #D2D6DB"}} onClick={() => setHideProjectOpen(true)} />
-                          <Button color="white" fontColor="#384250" style={{fontWeight: 600, border: "1px solid #D2D6DB"}}>View</Button>
-                        </Box>
-                      </Box>
-                      <Box vertical style={{padding: 20}}>
-                        <Box>
-                          <Box style={{border: "10px solid #E5E7EB", borderRadius: "50%", marginRight: 10}}>
-                            <Image src="/icons/avatar.png" alt="Avatar" width={40} height={40} />
-                          </Box>
-                          <Box vertical>
-                            <Typography color="#4D5761" fontSize="14px">{project.company}</Typography>
-                            <Typography color="#111927" fontWeight={600} style={{marginTop: 5}}>{project.subtitle}</Typography>
-                          </Box>
-                        </Box>
-                        <Box style={{marginTop: 15}}>
-                          <Typography color="#4D5761" fontSize="14px">{project.description} <Link>See more</Link></Typography>
-                        </Box>
-                        <Box fullWidth justifyContent="space-between" style={{marginTop: 20}}>
-                          <Box vertical>
-                            <Typography color="#111927" fontSize={14} fontWeight={600}>Open roles (6)</Typography>
-                            <Box style={{marginTop: 15, gap: 10}}>
-                              {
-                                project.roles.map((role, index) => <Label key={index} icon="/icons/user-blue.png" color="#e0effb" fontColor="#45729b" borderColor="#e0effb" borderRadius="0.3rem">{role}</Label>)
-                              }
-                            </Box>
-                          </Box>
-                        </Box>
-                        <Box style={{marginTop: 25}}>
-                          <Typography color="#4D5761" fontSize="14px" fontWeight={600} style={{marginRight: 5}}>See more</Typography>
-                          <Image src="/icons/down-arrow.png" alt="Down Arrow" width={12} height={6.75} />
-                        </Box>
-                      </Box>
-                    </Card>
+                    <RoleCard project={project} handleShare={() => setShareProjectOpen(true)} handleHide={() => setHideProjectOpen(true)} />
                   </Box>
                 ))
               }
@@ -457,5 +429,212 @@ export default function DashboardSearchProjects() {
       <HideProject open={hideProjectOpen} setOpen={setHideProjectOpen} />
       <ShareProject open={shareProjectOpen} setOpen={setShareProjectOpen} />
     </Container>
+  )
+}
+
+function RoleCard({ project, handleShare, handleHide }) {
+  const [showMore, setShowMore] = useState(false)
+
+  return (
+    <Card>
+      <Box justifyContent="space-between" style={{padding: 20, borderBottom: "1px solid #F3F4F6"}}>
+        <Box style={{gap: 15}}>
+          {
+            project.labels.map((label, index) => <Label key={index} color="#F3F4F6" borderColor="#F3F4F6">{label}</Label>)
+          }
+        </Box>
+        <Box style={{gap: 15}}>
+          <IconButton icon="/icons/share.png" width={24} height={24} onClick={handleShare} />
+          <IconButton icon="/icons/star-02.png" width={24} height={24} />
+          <IconButton icon="/icons/eye-off.png" width={16} height={16} style={{border: "1px solid #D2D6DB"}} onClick={handleHide} />
+          <Button color="white" fontColor="#384250" style={{fontWeight: 600, border: "1px solid #D2D6DB"}}>View</Button>
+        </Box>
+      </Box>
+      <Box vertical style={{padding: 20}}>
+        <Box>
+          <Box style={{border: "10px solid #E5E7EB", borderRadius: "50%", marginRight: 10}}>
+            <Image src="/icons/avatar.png" alt="Avatar" width={40} height={40} />
+          </Box>
+          <Box vertical>
+            <Typography color="#4D5761" fontSize="14px">{project.company}</Typography>
+            <Typography color="#111927" fontWeight={600} style={{marginTop: 5}}>{project.subtitle}</Typography>
+          </Box>
+        </Box>
+        <Box style={{marginTop: 15}}>
+          <Typography color="#4D5761" fontSize="14px">{project.description} <Link>See more</Link></Typography>
+        </Box>
+        <Box fullWidth justifyContent="space-between" style={{marginTop: 20}}>
+          <Box vertical>
+            <Typography color="#111927" fontSize={14} fontWeight={600}>Open roles (6)</Typography>
+            <Box style={{marginTop: 15, gap: 10}}>
+              {
+                project.roles.map((role, index) => <Label key={index} icon="/icons/user-blue.png" color="#e0effb" fontColor="#45729b" borderColor="#e0effb" borderRadius="0.3rem">{role}</Label>)
+              }
+            </Box>
+          </Box>
+        </Box>
+        {
+          showMore && (
+            <Box fullWidth style={{marginTop: 20}}>
+              <Table>
+                <thead>
+                <TableRow>
+                  <TableCol>Position</TableCol>
+                  <TableCol>Required Skills</TableCol>
+                  <TableCol></TableCol>
+                </TableRow>
+                </thead>
+                <tbody>
+                <TableRow>
+                  <TableCol>
+                    <Typography color="#111927" fontWeight={500}>Product Manager</Typography>
+                    <Row style={{marginTop: 6}}>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/money.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>$80-$90 /h</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/clock.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>40 h/week</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/marker-pin-01.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>See locations</Typography>
+                      </Row>
+                      <Row>
+                        <Image src="/icons/calendar.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>Feb 1, 2023</Typography>
+                      </Row>
+                    </Row>
+                  </TableCol>
+                  <TableCol>
+                    <Box>
+                      <Label icon="/icons/check-2.png" fontColor="#027A48" borderColor="#027A48">Product Analytics</Label>
+                      <Box display="inline-block" style={{borderRadius: 16, padding: "8px 16px", backgroundColor: "#F3F4F6", marginLeft: 15}}>
+                        <Typography color="#384250" fontWeight={500} fontSize={14}>+2</Typography>
+                      </Box>
+                    </Box>
+                  </TableCol>
+                  <TableCol>
+                    <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB"}}>Refer</Button>
+                    <Button color="#111927" fontColor="white" style={{marginLeft: 20}}>Apply</Button>
+                  </TableCol>
+                </TableRow>
+                <TableRow>
+                  <TableCol>
+                    <Typography color="#111927" fontWeight={500}>Front End Developer</Typography>
+                    <Row style={{marginTop: 6}}>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/money.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>$80-$90 /h</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/clock.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>40 h/week</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/marker-pin-01.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>See locations</Typography>
+                      </Row>
+                      <Row>
+                        <Image src="/icons/calendar.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>Feb 1, 2023</Typography>
+                      </Row>
+                    </Row>
+                  </TableCol>
+                  <TableCol>
+                    <Box>
+                      <Label>Java</Label>
+                      <Box display="inline-block" style={{borderRadius: 16, padding: "8px 16px", backgroundColor: "#F3F4F6", marginLeft: 15}}>
+                        <Typography color="#384250" fontWeight={500} fontSize={14}>+2</Typography>
+                      </Box>
+                    </Box>
+                  </TableCol>
+                  <TableCol>
+                    <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB"}}>Refer</Button>
+                    <Button color="#111927" fontColor="white" style={{marginLeft: 20}}>Apply</Button>
+                  </TableCol>
+                </TableRow>
+                <TableRow>
+                  <TableCol>
+                    <Typography color="#111927" fontWeight={500}>Back End Developer</Typography>
+                    <Row style={{marginTop: 6}}>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/money.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>$80-$90 /h</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/clock.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>40 h/week</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/marker-pin-01.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>See locations</Typography>
+                      </Row>
+                      <Row>
+                        <Image src="/icons/calendar.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>Feb 1, 2023</Typography>
+                      </Row>
+                    </Row>
+                  </TableCol>
+                  <TableCol>
+                    <Box>
+                      <Label>Java</Label>
+                      <Box display="inline-block" style={{borderRadius: 16, padding: "8px 16px", backgroundColor: "#F3F4F6", marginLeft: 15}}>
+                        <Typography color="#384250" fontWeight={500} fontSize={14}>+2</Typography>
+                      </Box>
+                    </Box>
+                  </TableCol>
+                  <TableCol>
+                    <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB"}}>Refer</Button>
+                    <Button color="#111927" fontColor="white" style={{marginLeft: 20}}>Apply</Button>
+                  </TableCol>
+                </TableRow>
+                <TableRow>
+                  <TableCol>
+                    <Typography color="#111927" fontWeight={500}>UX Designer</Typography>
+                    <Row style={{marginTop: 6}}>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/money.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>$80-$90 /h</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/clock.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>40 h/week</Typography>
+                      </Row>
+                      <Row style={{marginRight: 15}}>
+                        <Image src="/icons/marker-pin-01.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>See locations</Typography>
+                      </Row>
+                      <Row>
+                        <Image src="/icons/calendar.png" width={17} height={17} alt="Money" style={{marginRight: 3}} />
+                        <Typography>Feb 1, 2023</Typography>
+                      </Row>
+                    </Row>
+                  </TableCol>
+                  <TableCol>
+                    <Box>
+                      <Label>Wireframing</Label>
+                      <Box display="inline-block" style={{borderRadius: 16, padding: "8px 16px", backgroundColor: "#F3F4F6", marginLeft: 15}}>
+                        <Typography color="#384250" fontWeight={500} fontSize={14}>+4</Typography>
+                      </Box>
+                    </Box>
+                  </TableCol>
+                  <TableCol>
+                    <Button color="white" fontColor="#384250" style={{border: "1px solid #D2D6DB"}}>Refer</Button>
+                    <Button color="#111927" fontColor="white" style={{marginLeft: 20}}>Apply</Button>
+                  </TableCol>
+                </TableRow>
+                </tbody>
+              </Table>
+            </Box>
+          )
+        }
+        <Box style={{marginTop: 25}} onClick={() => setShowMore(!showMore)}>
+          <Typography color="#4D5761" fontSize="14px" fontWeight={600} style={{marginRight: 5}}>{showMore ? "See less" : "See more"}</Typography>
+          <Image src={showMore ? "/icons/up-arrow.png" : "/icons/down-arrow.png"} alt={showMore ? "Up Arrow" : "Down Arrow"} width={12} height={6.75} />
+        </Box>
+      </Box>
+    </Card>
   )
 }

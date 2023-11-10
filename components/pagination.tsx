@@ -8,7 +8,7 @@ const PaginationContainer = styled.div`
   border-radius: 0.3rem;
 `;
 
-const PaginationItem = styled.div<any>`
+const PaginationItem = styled.div`
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -21,9 +21,14 @@ const PaginationItem = styled.div<any>`
   &:hover {
     background-color: #f7fafd;
   }
+
+  &:first-child {
+    border-radius: 0.3rem 0 0 0.3rem;
+  }
   
   &:last-child {
     border-right: none;
+    border-radius: 0 0.3rem 0.3rem 0;
   }
 `;
 

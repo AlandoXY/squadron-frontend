@@ -9,7 +9,7 @@ const TextareaContainer = styled.div`
   width: 100%;
 `;
 
-const TextareaContent = styled.textarea`
+const TextareaContent = styled.textarea<TextareaProps>`
   outline: none;
   width: ${({width}) => typeof width === 'number' ? width + 'px' : width};
   height: ${props => props.height + "px"};

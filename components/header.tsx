@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import IconButton from "@/components/icon-button";
 import React from "react";
-import Button from "@/components/button";
 import Box from "@/components/box";
+import IconButton from "@/components/icon-button";
+import Button from "@/components/button";
 import {useRouter} from "next/navigation";
-
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -26,7 +25,7 @@ const HeaderMenuItem = styled.div`
   margin: 20px;
 `;
 
-export default function Header({ onlyLogo }) {
+export default function Header({ onlyLogo = false }) {
   const router = useRouter()
 
   return (
